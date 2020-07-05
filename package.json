@@ -1,0 +1,39 @@
+{
+  "name": "vscode-rocket-pack",
+  "displayName": "vscode-rocket-pack",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rpd",
+        "aliases": [
+          "rocket-pack",
+          "rpd"
+        ],
+        "extensions": [
+          ".rpd"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rpd",
+        "scopeName": "source.rpd",
+        "path": "./syntaxes/rpd.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "npx js-yaml syntaxes/rpd.tmLanguage.yaml > syntaxes/rpd.tmLanguage.json"
+  },
+  "devDependencies": {
+    "js-yaml": "^3.14.0"
+  }
+}
