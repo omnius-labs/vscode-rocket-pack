@@ -38,5 +38,6 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/omnius-labs/vscode-rocket-pack.git"
-    }
+    },
+    "publisher": "lyrise1984"
 }
