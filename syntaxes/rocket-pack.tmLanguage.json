@@ -110,7 +110,7 @@
           "name": "storage.type.enum.rocket-pack"
         },
         "2": {
-          "name": "entity.name.rocket-pack"
+          "name": "entry.name.type.rocket-pack"
         },
         "3": {
           "name": "storage.type.enum.type.rocket-pack"
