@@ -1,0 +1,213 @@
+name: Rocket Pack 1
+scopeName: source.rocket-pack
+fileTypes:
+  - rocket-pack
+patterns:
+  - include: "#comments"
+  - include: "#syntax"
+  - include: "#namespace"
+  - include: "#using"
+  - include: "#option"
+  - include: "#attribute"
+  - include: "#enum"
+  - include: "#struct"
+  - include: "#table"
+repository:
+  comments:
+    patterns:
+      - name: comment.block.rocket-pack
+        begin: "/\\*"
+        end: "\\*/"
+      - name: comment.line.double-slash.rocket-pack
+        begin: "//"
+        end: "$\\n?"
+  syntax:
+    match: \s*(syntax)\s*(v[\d|\.]+)\s*
+    captures:
+      "1":
+        name: constant.language.rocket-pack
+      "2":
+        name: string.unquoted.rocket-pack.syntax
+  namespace:
+    match: \s*(namespace)\s+("[^"]+")\s*
+    captures:
+      "1":
+        name: constant.language.rocket-pack
+      "2":
+        name: string.quoted.double.rocket-pack.namespace
+  using:
+    match: \s*(using)\s+("[^"]+")\s*
+    captures:
+      "1":
+        name: constant.language.rocket-pack
+      "2":
+        name: string.quoted.double.rocket-pack.using
+  option:
+    match: \s*(option)\s+(\w+)\s*=\s*("[^"]+")\s*
+    captures:
+      "1":
+        name: constant.language.rocket-pack
+      "2":
+        name: keyword.other.rocket-pack
+      "3":
+        name: string.quoted.double.rocket-pack.option
+  attribute:
+    match: \s*\[\s*(\w+)\s*\]\s*
+    captures:
+      "1":
+        name: keyword.other.rocket-pack
+
+  enum:
+    begin: (enum)\s+([A-Za-z][A-Za-z0-9_]*)\s*:\s*(\w+)\s*\{?
+    beginCaptures:
+      "1":
+        name: storage.type.enum.rocket-pack
+      "2":
+        name: entity.name.rocket-pack
+      "3":
+        name: storage.type.enum.type.rocket-pack
+    end: "\\}"
+    patterns:
+      - include: "#enumElements"
+  enumElements:
+    match: \s*([A-Za-z0-9_]+)\s*=\s*(\d+)\s*,\s*
+    captures:
+      "1":
+        name: keyword.other.rocket-pack
+      "2":
+        name: constant.numeric.rocket-pack
+
+  table:
+    begin: (table)\s+([A-Za-z][A-Za-z0-9_]*)\s*\{?
+    beginCaptures:
+      "1":
+        name: storage.type.table.rocket-pack
+      "2":
+        name: entry.name.type.rocket-pack
+    end: \}
+    patterns:
+      - include: "#tableElements"
+  tableElements:
+    match: \s*([A-Za-z0-9_]+)\s*:\s*(.*)\s*=\s*(\d+)\s*,\s*
+    captures:
+      "1":
+        name: variable.parameter.rocket-pack
+      "2":
+        patterns:
+          - include: "#standardType"
+          - include: "#bytesType"
+          - include: "#stringType"
+          - include: "#vectorType"
+          - include: "#mapType"
+          - include: "#customType"
+          - include: "#comment"
+      "3":
+        name: constant.numeric.rocket-pack
+
+  struct:
+    begin: (struct)\s+([A-Za-z][A-Za-z0-9_]*)\s*\{?
+    beginCaptures:
+      "1":
+        name: storage.type.table.rocket-pack
+      "2":
+        name: entry.name.type.rocket-pack
+    end: \}
+    patterns:
+      - include: "#structElement"
+  structElement:
+    match: \s*([A-Za-z0-9_]+)\s*:\s*(.*)\s*,\s*
+    captures:
+      "1":
+        name: variable.parameter.rocket-pack
+      "2":
+        patterns:
+          - include: "#standardType"
+          - include: "#bytesType"
+          - include: "#stringType"
+          - include: "#vectorType"
+          - include: "#mapType"
+          - include: "#customType"
+          - include: "#comment"
+
+  standardType:
+    match: \s*(bool|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float32|float64|timestamp)\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
+  bytesType:
+    match: \s*(bytes)\s*(\((.*?)\))?\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
+      "3":
+        patterns:
+          - include: "#typeParam"
+          - include: "#separator"
+  stringType:
+    match: \s*(string)\s*(\((.*?)\))?\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
+      "3":
+        patterns:
+          - include: "#typeParam"
+          - include: "#separator"
+  vectorType:
+    match: \s*(vector)\s*<\s*([^>]+)\s*>\s*(\((.*?)\))?\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
+      "2":
+        patterns:
+          - include: "#standardType"
+          - include: "#bytesType"
+          - include: "#stringType"
+          - include: "#customType"
+      "4":
+        patterns:
+          - include: "#typeParam"
+          - include: "#separator"
+  mapType:
+    match: \s*(map)\s*<\s*([^>]+)\s*,\s*([^>]+)\s*>\s*(\((.*?)\))?\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
+      "2":
+        patterns:
+          - include: "#standardType"
+          - include: "#bytesType"
+          - include: "#stringType"
+          - include: "#customType"
+      "3":
+        patterns:
+          - include: "#standardType"
+          - include: "#bytesType"
+          - include: "#stringType"
+          - include: "#customType"
+      "5":
+        patterns:
+          - include: "#typeParam"
+          - include: "#separator"
+  customType:
+    match: \s*([A-Za-z0-9_]+)\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
+
+  typeParam:
+    match: \s*([A-Za-z0-9_]+)\s*:\s*([A-Za-z0-9_]+)\s*
+    captures:
+      "1":
+        name: variable.rocket-pack
+      "2":
+        name: constant.rocket-pack
+
+  string:
+    match: ('([^']|\')*')|("([^"]|\")*")
+    name: string.quoted.double.rocket-pack
+  number:
+    name: constant.numeric.rocket-pack
+    match: "\\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)\\b"
+  separator:
+    match: ","
+    name: punctuation.separator.parameter.rocket-pack
