@@ -130,12 +130,12 @@ repository:
           - include: "#comment"
 
   standardType:
-    match: \s*(bool|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float32|float64|timestamp)\s*
+    match: \s*(bool|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float32|float64|timestamp)\??\s*
     captures:
       "1":
         name: storage.type.rocket-pack
   bytesType:
-    match: \s*(bytes)\s*(\((.*?)\))?\s*
+    match: \s*(bytes)\??\s*(\((.*?)\))?\s*
     captures:
       "1":
         name: storage.type.rocket-pack
@@ -144,7 +144,7 @@ repository:
           - include: "#typeParam"
           - include: "#separator"
   stringType:
-    match: \s*(string)\s*(\((.*?)\))?\s*
+    match: \s*(string)\??\s*(\((.*?)\))?\s*
     captures:
       "1":
         name: storage.type.rocket-pack
@@ -153,7 +153,7 @@ repository:
           - include: "#typeParam"
           - include: "#separator"
   vectorType:
-    match: \s*(vector)\s*<\s*([^>]+)\s*>\s*(\((.*?)\))?\s*
+    match: \s*(vector)\s*<\s*([^>]+)\s*>\??\s*(\((.*?)\))?\s*
     captures:
       "1":
         name: storage.type.rocket-pack
@@ -168,7 +168,7 @@ repository:
           - include: "#typeParam"
           - include: "#separator"
   mapType:
-    match: \s*(map)\s*<\s*([^>]+)\s*,\s*([^>]+)\s*>\s*(\((.*?)\))?\s*
+    match: \s*(map)\s*<\s*([^>]+)\s*,\s*([^>]+)\s*>\??\s*(\((.*?)\))?\s*
     captures:
       "1":
         name: storage.type.rocket-pack
@@ -189,7 +189,7 @@ repository:
           - include: "#typeParam"
           - include: "#separator"
   customType:
-    match: \s*([A-Za-z0-9_]+)\s*
+    match: \s*([A-Za-z0-9_]+)\??\s*
     captures:
       "1":
         name: storage.type.rocket-pack
