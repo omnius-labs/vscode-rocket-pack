@@ -16,119 +16,145 @@ repository:
   comments:
     patterns:
       - name: comment.block.rocket-pack
-        begin: "/\\*"
-        end: "\\*/"
+        begin: /\*
+        end: \*/
       - name: comment.line.double-slash.rocket-pack
-        begin: "//"
-        end: "$\\n?"
+        begin: //
+        end: $\n?
   syntax:
-    match: \s*(syntax)\s*(v[\d|\.]+)\s*
+    match: \b(syntax)\s+(v[\d|\.]+)
     captures:
       "1":
         name: constant.language.rocket-pack
       "2":
         name: string.unquoted.rocket-pack.syntax
   namespace:
-    match: \s*(namespace)\s+("[^"]+")\s*
+    match: \b(namespace)\s+("[^"]+")
     captures:
       "1":
         name: constant.language.rocket-pack
       "2":
         name: string.quoted.double.rocket-pack.namespace
   using:
-    match: \s*(using)\s+("[^"]+")\s*
+    match: \b(using)\s+("[^"]+")
     captures:
       "1":
         name: constant.language.rocket-pack
       "2":
         name: string.quoted.double.rocket-pack.using
   option:
-    match: \s*(option)\s+(\w+)\s*=\s*("[^"]+")\s*
+    match: \b(option)\s+(\w+)\s*=\s*("[^"]+")
     captures:
       "1":
         name: constant.language.rocket-pack
       "2":
-        name: keyword.other.rocket-pack
+        name: variable.parameter.rocket-pack
       "3":
         name: string.quoted.double.rocket-pack.option
   attribute:
-    match: \s*\[\s*(\w+)\s*\]\s*
+    match: \[\s*(\w+)\s*\]
     captures:
       "1":
         name: keyword.other.rocket-pack
-
   enum:
-    begin: (enum)\s+([A-Za-z][A-Za-z0-9_]*)\s*:\s*(\w+)\s*\{?
-    beginCaptures:
-      "1":
-        name: storage.type.enum.rocket-pack
-      "2":
-        name: entry.name.type.rocket-pack
-      "3":
-        name: storage.type.enum.type.rocket-pack
-    end: "\\}"
+    begin: (?=\benum\b)
+    end: (?<=\})
     patterns:
-      - include: "#enumElements"
-  enumElements:
-    match: \s*([A-Za-z0-9_]+)\s*=\s*(\d+)\s*,\s*
+      - begin: |-
+          (?x)
+          \b(enum)\b\s+
+          ([A-Za-z][A-Za-z0-9_]*)\s*:\s*(\w+)\s*
+        beginCaptures:
+          "1":
+            name: storage.type.enum.rocket-pack
+          "2":
+            name: entry.name.type.rocket-pack
+          "3":
+            patterns:
+              - include: "#enumType"
+        end: (?=\{)
+      - patterns:
+          - include: "#enumElement"
+  enumElement:
+    match: \b([A-Za-z0-9_]+)\s*=\s*(\d+)\s*,\s*
     captures:
       "1":
-        name: keyword.other.rocket-pack
+        name: variable.parameter.rocket-pack
       "2":
         name: constant.numeric.rocket-pack
-
   table:
-    begin: (table)\s+([A-Za-z][A-Za-z0-9_]*)\s*\{?
-    beginCaptures:
-      "1":
-        name: storage.type.table.rocket-pack
-      "2":
-        name: entry.name.type.rocket-pack
-    end: \}
+    begin: (?=\btable\b)
+    end: (?<=\})
     patterns:
-      - include: "#tableElements"
-  tableElements:
-    match: \s*([A-Za-z0-9_]+)\s*:\s*(.*)\s*=\s*(\d+)\s*,\s*
+      - begin: |-
+          (?x)
+          \b(table)\b\s+
+          ([A-Za-z][A-Za-z0-9_]*)\s*
+        beginCaptures:
+          "1":
+            name: storage.type.table.rocket-pack
+          "2":
+            name: entry.name.type.rocket-pack
+          "3":
+            patterns:
+              - include: "#tableType"
+        end: (?=\{)
+      - patterns:
+          - include: "#tableElement"
+  tableElement:
+    match: \s*([A-Za-z0-9_]+)\s*:\s*(.+)\s*=\s*(\d+)\s*,\s*
     captures:
       "1":
         name: variable.parameter.rocket-pack
       "2":
         patterns:
+          - include: "#comment"
           - include: "#standardType"
           - include: "#bytesType"
           - include: "#stringType"
           - include: "#vectorType"
           - include: "#mapType"
           - include: "#customType"
-          - include: "#comment"
       "3":
         name: constant.numeric.rocket-pack
-
   struct:
-    begin: (struct)\s+([A-Za-z][A-Za-z0-9_]*)\s*\{?
-    beginCaptures:
-      "1":
-        name: storage.type.table.rocket-pack
-      "2":
-        name: entry.name.type.rocket-pack
-    end: \}
+    begin: (?=\bstruct\b)
+    end: (?<=\})
     patterns:
-      - include: "#structElement"
+      - begin: |-
+          (?x)
+          \b(struct)\b\s+
+          ([A-Za-z][A-Za-z0-9_]*)\s*
+        beginCaptures:
+          "1":
+            name: storage.type.struct.rocket-pack
+          "2":
+            name: entry.name.type.rocket-pack
+          "3":
+            patterns:
+              - include: "#structType"
+        end: (?=\{)
+      - patterns:
+          - include: "#structElement"
   structElement:
-    match: \s*([A-Za-z0-9_]+)\s*:\s*(.*)\s*,\s*
+    match: \s*([A-Za-z0-9_]+)\s*:\s*(.+)\s*,\s*
     captures:
       "1":
         name: variable.parameter.rocket-pack
       "2":
         patterns:
+          - include: "#comment"
           - include: "#standardType"
           - include: "#bytesType"
           - include: "#stringType"
           - include: "#vectorType"
           - include: "#mapType"
           - include: "#customType"
-          - include: "#comment"
-
+  enumType:
+    match: \s*(int8|int16|int32|int64|uint8|uint16|uint32|uint64)\??\s*
+    captures:
+      "1":
+        name: storage.type.rocket-pack
   standardType:
     match: \s*(bool|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float32|float64|timestamp)\??\s*
     captures:
@@ -192,8 +218,7 @@ repository:
     match: \s*([A-Za-z0-9_]+)\??\s*
     captures:
       "1":
-        name: storage.type.rocket-pack
-
+        name: support.class.rocket-pack
   typeParam:
     match: \s*([A-Za-z0-9_]+)\s*:\s*([A-Za-z0-9_]+)\s*
     captures:
@@ -201,7 +226,6 @@ repository:
         name: variable.rocket-pack
       "2":
         name: constant.rocket-pack
-
   string:
     match: ('([^']|\')*')|("([^"]|\")*")
     name: string.quoted.double.rocket-pack

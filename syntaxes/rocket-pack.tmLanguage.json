@@ -49,7 +49,7 @@
       ]
     },
     "syntax": {
-      "match": "\\s*(syntax)\\s*(v[\\d|\\.]+)\\s*",
+      "match": "\\b(syntax)\\s+(v[\\d|\\.]+)",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
@@ -60,7 +60,7 @@
       }
     },
     "namespace": {
-      "match": "\\s*(namespace)\\s+(\"[^\"]+\")\\s*",
+      "match": "\\b(namespace)\\s+(\"[^\"]+\")",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
@@ -71,7 +71,7 @@
       }
     },
     "using": {
-      "match": "\\s*(using)\\s+(\"[^\"]+\")\\s*",
+      "match": "\\b(using)\\s+(\"[^\"]+\")",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
@@ -82,13 +82,13 @@
       }
     },
     "option": {
-      "match": "\\s*(option)\\s+(\\w+)\\s*=\\s*(\"[^\"]+\")\\s*",
+      "match": "\\b(option)\\s+(\\w+)\\s*=\\s*(\"[^\"]+\")",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
         },
         "2": {
-          "name": "keyword.other.rocket-pack"
+          "name": "variable.parameter.rocket-pack"
         },
         "3": {
           "name": "string.quoted.double.rocket-pack.option"
@@ -96,7 +96,7 @@
       }
     },
     "attribute": {
-      "match": "\\s*\\[\\s*(\\w+)\\s*\\]\\s*",
+      "match": "\\[\\s*(\\w+)\\s*\\]",
       "captures": {
         "1": {
           "name": "keyword.other.rocket-pack"
@@ -104,30 +104,42 @@
       }
     },
     "enum": {
-      "begin": "(enum)\\s+([A-Za-z][A-Za-z0-9_]*)\\s*:\\s*(\\w+)\\s*\\{?",
-      "beginCaptures": {
-        "1": {
-          "name": "storage.type.enum.rocket-pack"
-        },
-        "2": {
-          "name": "entry.name.type.rocket-pack"
-        },
-        "3": {
-          "name": "storage.type.enum.type.rocket-pack"
-        }
-      },
-      "end": "\\}",
+      "begin": "(?=\\benum\\b)",
+      "end": "(?<=\\})",
       "patterns": [
         {
-          "include": "#enumElements"
+          "begin": "(?x)\n\\b(enum)\\b\\s+\n([A-Za-z][A-Za-z0-9_]*)\\s*:\\s*(\\w+)\\s*",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.enum.rocket-pack"
+            },
+            "2": {
+              "name": "entry.name.type.rocket-pack"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "include": "#enumType"
+                }
+              ]
+            }
+          },
+          "end": "(?=\\{)"
+        },
+        {
+          "patterns": [
+            {
+              "include": "#enumElement"
+            }
+          ]
         }
       ]
     },
-    "enumElements": {
-      "match": "\\s*([A-Za-z0-9_]+)\\s*=\\s*(\\d+)\\s*,\\s*",
+    "enumElement": {
+      "match": "\\b([A-Za-z0-9_]+)\\s*=\\s*(\\d+)\\s*,\\s*",
       "captures": {
         "1": {
-          "name": "keyword.other.rocket-pack"
+          "name": "variable.parameter.rocket-pack"
         },
         "2": {
           "name": "constant.numeric.rocket-pack"
@@ -135,30 +147,48 @@
       }
     },
     "table": {
-      "begin": "(table)\\s+([A-Za-z][A-Za-z0-9_]*)\\s*\\{?",
-      "beginCaptures": {
-        "1": {
-          "name": "storage.type.table.rocket-pack"
-        },
-        "2": {
-          "name": "entry.name.type.rocket-pack"
-        }
-      },
-      "end": "\\}",
+      "begin": "(?=\\btable\\b)",
+      "end": "(?<=\\})",
       "patterns": [
         {
-          "include": "#tableElements"
+          "begin": "(?x)\n\\b(table)\\b\\s+\n([A-Za-z][A-Za-z0-9_]*)\\s*",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.table.rocket-pack"
+            },
+            "2": {
+              "name": "entry.name.type.rocket-pack"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "include": "#tableType"
+                }
+              ]
+            }
+          },
+          "end": "(?=\\{)"
+        },
+        {
+          "patterns": [
+            {
+              "include": "#tableElement"
+            }
+          ]
         }
       ]
     },
-    "tableElements": {
-      "match": "\\s*([A-Za-z0-9_]+)\\s*:\\s*(.*)\\s*=\\s*(\\d+)\\s*,\\s*",
+    "tableElement": {
+      "match": "\\s*([A-Za-z0-9_]+)\\s*:\\s*(.+)\\s*=\\s*(\\d+)\\s*,\\s*",
       "captures": {
         "1": {
           "name": "variable.parameter.rocket-pack"
         },
         "2": {
           "patterns": [
+            {
+              "include": "#comment"
+            },
             {
               "include": "#standardType"
             },
@@ -176,9 +206,6 @@
             },
             {
               "include": "#customType"
-            },
-            {
-              "include": "#comment"
             }
           ]
         },
@@ -188,30 +215,48 @@
       }
     },
     "struct": {
-      "begin": "(struct)\\s+([A-Za-z][A-Za-z0-9_]*)\\s*\\{?",
-      "beginCaptures": {
-        "1": {
-          "name": "storage.type.table.rocket-pack"
-        },
-        "2": {
-          "name": "entry.name.type.rocket-pack"
-        }
-      },
-      "end": "\\}",
+      "begin": "(?=\\bstruct\\b)",
+      "end": "(?<=\\})",
       "patterns": [
         {
-          "include": "#structElement"
+          "begin": "(?x)\n\\b(struct)\\b\\s+\n([A-Za-z][A-Za-z0-9_]*)\\s*",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.struct.rocket-pack"
+            },
+            "2": {
+              "name": "entry.name.type.rocket-pack"
+            },
+            "3": {
+              "patterns": [
+                {
+                  "include": "#structType"
+                }
+              ]
+            }
+          },
+          "end": "(?=\\{)"
+        },
+        {
+          "patterns": [
+            {
+              "include": "#structElement"
+            }
+          ]
         }
       ]
     },
     "structElement": {
-      "match": "\\s*([A-Za-z0-9_]+)\\s*:\\s*(.*)\\s*,\\s*",
+      "match": "\\s*([A-Za-z0-9_]+)\\s*:\\s*(.+)\\s*,\\s*",
       "captures": {
         "1": {
           "name": "variable.parameter.rocket-pack"
         },
         "2": {
           "patterns": [
+            {
+              "include": "#comment"
+            },
             {
               "include": "#standardType"
             },
@@ -229,11 +274,16 @@
             },
             {
               "include": "#customType"
-            },
-            {
-              "include": "#comment"
             }
           ]
+        }
+      }
+    },
+    "enumType": {
+      "match": "\\s*(int8|int16|int32|int64|uint8|uint16|uint32|uint64)\\??\\s*",
+      "captures": {
+        "1": {
+          "name": "storage.type.rocket-pack"
         }
       }
     },
@@ -369,7 +419,7 @@
       "match": "\\s*([A-Za-z0-9_]+)\\??\\s*",
       "captures": {
         "1": {
-          "name": "storage.type.rocket-pack"
+          "name": "support.class.rocket-pack"
         }
       }
     },
