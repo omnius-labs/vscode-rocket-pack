@@ -49,7 +49,7 @@
       ]
     },
     "syntax": {
-      "match": "\\b(syntax)\\s+(v[\\d|\\.]+)",
+      "match": "\\b(syntax)\\s+(v[\\d|\\.]+)\\s*;",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
@@ -60,7 +60,7 @@
       }
     },
     "namespace": {
-      "match": "\\b(namespace)\\s+(\"[^\"]+\")",
+      "match": "\\b(namespace)\\s+(\"[^\"]+\")\\s*;",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
@@ -71,7 +71,7 @@
       }
     },
     "using": {
-      "match": "\\b(using)\\s+(\"[^\"]+\")",
+      "match": "\\b(using)\\s+(\"[^\"]+\")\\s*;",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
@@ -82,13 +82,13 @@
       }
     },
     "option": {
-      "match": "\\b(option)\\s+(\\w+)\\s*=\\s*(\"[^\"]+\")",
+      "match": "\\b(option)\\s+(\\w+)\\s*(\"[^\"]+\")\\s*;",
       "captures": {
         "1": {
           "name": "constant.language.rocket-pack"
         },
         "2": {
-          "name": "variable.parameter.rocket-pack"
+          "name": "constant.language.rocket-pack"
         },
         "3": {
           "name": "string.quoted.double.rocket-pack.option"
@@ -114,7 +114,7 @@
               "name": "storage.type.enum.rocket-pack"
             },
             "2": {
-              "name": "entry.name.type.rocket-pack"
+              "name": "entity.name.type.enum.rocket-pack"
             },
             "3": {
               "patterns": [
@@ -437,10 +437,6 @@
     "string": {
       "match": "('([^']|\\')*')|(\"([^\"]|\\\")*\")",
       "name": "string.quoted.double.rocket-pack"
-    },
-    "number": {
-      "name": "constant.numeric.rocket-pack",
-      "match": "\\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)\\b"
     },
     "separator": {
       "match": ",",
