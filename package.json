@@ -2,7 +2,7 @@
     "name": "vscode-rocket-pack",
     "displayName": "vscode-rocket-pack",
     "description": "",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "engines": {
         "vscode": "^1.46.0"
     },
