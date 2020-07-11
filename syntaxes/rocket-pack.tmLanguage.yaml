@@ -68,7 +68,7 @@ repository:
           "1":
             name: storage.type.enum.rocket-pack
           "2":
-            name: entity.name.type.enum.rocket-pack
+            name: entry.name.type.enum.rocket-pack
           "3":
             patterns:
               - include: "#enumType"
