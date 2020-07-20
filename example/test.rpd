@@ -1,7 +1,7 @@
-syntax v1.0
+syntax v1.0;
 
-namespace "Omnius.Core.Serialization.OmniPack.CodeGenerator.Internal"
-option csharp_access_level = "internal"
+namespace "Omnius.Core.Serialization.OmniPack.CodeGenerator.Internal";
+option csharp_access_level "internal";
 
 enum Enum1 : int8 {
     Yes = 0,
@@ -46,20 +46,20 @@ enum Enum8: uint64 {
 [csharp_struct]
 struct StructMessageElement_Struct {
     X0: bool,
-} 
+}
 
 [csharp_struct]
 table TableMessageElement_Struct {
     X0: bool = 0,
-} 
+}
 
 struct StructMessageElement_Class {
     X0: bool,
-} 
+}
 
 table TableMessageElement_Class {
     X0: bool = 0,
-} 
+}
 
 [csharp_struct]
 struct StructMessage_Struct {
