@@ -11,7 +11,7 @@ patterns:
   - include: "#attribute"
   - include: "#enum"
   - include: "#struct"
-  - include: "#table"
+  - include: "#message"
 repository:
   comments:
     patterns:
@@ -82,26 +82,26 @@ repository:
         name: variable.parameter.rocket-pack
       "2":
         name: constant.numeric.rocket-pack
-  table:
-    begin: (?=\btable\b)
+  message:
+    begin: (?=\bmessage\b)
     end: (?<=\})
     patterns:
       - begin: |-
           (?x)
-          \b(table)\b\s+
+          \b(message)\b\s+
           ([A-Za-z][A-Za-z0-9_]*)\s*
         beginCaptures:
           "1":
-            name: storage.type.table.rocket-pack
+            name: storage.type.message.rocket-pack
           "2":
             name: entry.name.type.rocket-pack
           "3":
             patterns:
-              - include: "#tableType"
+              - include: "#messageType"
         end: (?=\{)
       - patterns:
-          - include: "#tableElement"
-  tableElement:
+          - include: "#messageElement"
+  messageElement:
     match: \s*([A-Za-z0-9_]+)\s*:\s*(.+)\s*=\s*(\d+)\s*,\s*
     captures:
       "1":

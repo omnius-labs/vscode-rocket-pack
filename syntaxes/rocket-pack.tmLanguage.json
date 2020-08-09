@@ -30,7 +30,7 @@
       "include": "#struct"
     },
     {
-      "include": "#table"
+      "include": "#message"
     }
   ],
   "repository": {
@@ -146,15 +146,15 @@
         }
       }
     },
-    "table": {
-      "begin": "(?=\\btable\\b)",
+    "message": {
+      "begin": "(?=\\bmessage\\b)",
       "end": "(?<=\\})",
       "patterns": [
         {
-          "begin": "(?x)\n\\b(table)\\b\\s+\n([A-Za-z][A-Za-z0-9_]*)\\s*",
+          "begin": "(?x)\n\\b(message)\\b\\s+\n([A-Za-z][A-Za-z0-9_]*)\\s*",
           "beginCaptures": {
             "1": {
-              "name": "storage.type.table.rocket-pack"
+              "name": "storage.type.message.rocket-pack"
             },
             "2": {
               "name": "entry.name.type.rocket-pack"
@@ -162,7 +162,7 @@
             "3": {
               "patterns": [
                 {
-                  "include": "#tableType"
+                  "include": "#messageType"
                 }
               ]
             }
@@ -172,13 +172,13 @@
         {
           "patterns": [
             {
-              "include": "#tableElement"
+              "include": "#messageElement"
             }
           ]
         }
       ]
     },
-    "tableElement": {
+    "messageElement": {
       "match": "\\s*([A-Za-z0-9_]+)\\s*:\\s*(.+)\\s*=\\s*(\\d+)\\s*,\\s*",
       "captures": {
         "1": {
