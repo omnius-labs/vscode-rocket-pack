@@ -12,6 +12,7 @@ patterns:
   - include: "#enum"
   - include: "#struct"
   - include: "#message"
+  - include: "#service"
 repository:
   comments:
     patterns:
@@ -102,7 +103,7 @@ repository:
       - patterns:
           - include: "#messageElement"
   messageElement:
-    match: \s*([A-Za-z0-9_]+)\s*:\s*(.+)\s*=\s*(\d+)\s*,\s*
+    match: \s*([A-Za-z0-9_]+)\s*:\s*(.+)\s*,\s*
     captures:
       "1":
         name: variable.parameter.rocket-pack
@@ -115,8 +116,6 @@ repository:
           - include: "#vectorType"
           - include: "#mapType"
           - include: "#customType"
-      "3":
-        name: constant.numeric.rocket-pack
   struct:
     begin: (?=\bstruct\b)
     end: (?<=\})
@@ -149,6 +148,38 @@ repository:
           - include: "#stringType"
           - include: "#vectorType"
           - include: "#mapType"
+          - include: "#customType"
+  service:
+    begin: (?=\bservice\b)
+    end: (?<=\})
+    patterns:
+      - begin: |-
+          (?x)
+          \b(service)\b\s+
+          ([A-Za-z][A-Za-z0-9_]*)\s*
+        beginCaptures:
+          "1":
+            name: storage.type.service.rocket-pack
+          "2":
+            name: entry.name.type.rocket-pack
+          "3":
+            patterns:
+              - include: "#serviceType"
+        end: (?=\{)
+      - patterns:
+          - include: "#serviceElement"
+  serviceElement:
+    match: \s*([A-Za-z0-9_]+)\s*:\s*\(\s*(.*)\s*\)\s*->\s*\(\s*(.*)\s*\)\s*,
+    captures:
+      "1":
+        name: variable.parameter.rocket-pack
+      "2":
+        patterns:
+          - include: "#comment"
+          - include: "#customType"
+      "3":
+        patterns:
+          - include: "#comment"
           - include: "#customType"
   enumType:
     match: \s*(int8|int16|int32|int64|uint8|uint16|uint32|uint64)\??\s*
