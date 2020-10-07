@@ -1,43 +1,43 @@
 {
-    "name": "vscode-rocket-pack",
-    "displayName": "vscode-rocket-pack",
-    "description": "",
-    "version": "0.1.7",
-    "engines": {
-        "vscode": "^1.46.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "rocket-pack",
-                "aliases": [
-                    "rocket-pack"
-                ],
-                "extensions": [
-                    ".rpd"
-                ]
-            }
+  "name": "vscode-rocket-pack",
+  "displayName": "vscode-rocket-pack",
+  "description": "",
+  "version": "0.1.7",
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rocket-pack",
+        "aliases": [
+          "rocket-pack"
         ],
-        "grammars": [
-            {
-                "language": "rocket-pack",
-                "scopeName": "source.rocket-pack",
-                "path": "./syntaxes/rocket-pack.tmLanguage.json"
-            }
+        "extensions": [
+          ".rpf"
         ]
-    },
-    "scripts": {
-        "compile": "npx js-yaml syntaxes/rocket-pack.tmLanguage.yaml > syntaxes/rocket-pack.tmLanguage.json"
-    },
-    "devDependencies": {
-        "js-yaml": "^3.14.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/omnius-labs/vscode-rocket-pack.git"
-    },
-    "publisher": "lyrise1984"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rocket-pack",
+        "scopeName": "source.rocket-pack",
+        "path": "./syntaxes/rocket-pack.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "npx js-yaml syntaxes/rocket-pack.tmLanguage.yaml > syntaxes/rocket-pack.tmLanguage.json"
+  },
+  "devDependencies": {
+    "js-yaml": "^3.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omnius-labs/vscode-rocket-pack.git"
+  },
+  "publisher": "lyrise1984"
 }

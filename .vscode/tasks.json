@@ -10,7 +10,7 @@
       },
       "problemMatcher": [],
       "label": "npm: compile",
-      "detail": "npx js-yaml syntaxes/rpd.tmLanguage.yaml > syntaxes/rpd.tmLanguage.json"
+      "detail": "npx js-yaml syntaxes/rpf.tmLanguage.yaml > syntaxes/rpf.tmLanguage.json"
     }
   ]
 }
